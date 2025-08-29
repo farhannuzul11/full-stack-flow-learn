@@ -34,14 +34,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Log in to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u farhannuzul11 --password-stdin
 
       - name: Build & Push Images
         run: |
           # Backend image
-          docker build -t ghcr.io/${{ github.actor }}/backend-test:${{ github.ref_name }} ./backend-test
-          docker push ghcr.io/${{ github.actor }}/backend-test:${{ github.ref_name }}
+          docker build -t ghcr.io/farhannuzul11/backend-test:${{ github.ref_name }} ./backend-test
+          docker push ghcr.io/farhannuzul11/backend-test:${{ github.ref_name }}
 
           # Frontend image
-          docker build -t ghcr.io/${{ github.actor }}/frontend-test:${{ github.ref_name }} ./frontend-test
-          docker push ghcr.io/${{ github.actor }}/frontend-test:${{ github.ref_name }}
+          docker build -t ghcr.io/farhannuzul11/frontend-test:${{ github.ref_name }} ./frontend-test
+          docker push ghcr.io/farhannuzul11/frontend-test:${{ github.ref_name }}
