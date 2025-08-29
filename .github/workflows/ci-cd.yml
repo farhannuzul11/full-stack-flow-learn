@@ -38,7 +38,10 @@ jobs:
 
       - name: Build & Push Images
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/backend:${{ github.ref_name }} ./backend-test
-          docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }} ./frontend-test
-          docker push ghcr.io/${{ github.repository }}/backend:${{ github.ref_name }}
-          docker push ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }}
+          # Backend image
+          docker build -t ghcr.io/${{ github.actor }}/backend-test:${{ github.ref_name }} ./backend-test
+          docker push ghcr.io/${{ github.actor }}/backend-test:${{ github.ref_name }}
+
+          # Frontend image
+          docker build -t ghcr.io/${{ github.actor }}/frontend-test:${{ github.ref_name }} ./frontend-test
+          docker push ghcr.io/${{ github.actor }}/frontend-test:${{ github.ref_na
