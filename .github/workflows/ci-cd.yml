@@ -1,0 +1,44 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - "feature/*"
+
+jobs:
+  # ✅ CI (all branches)
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Backend install
+        run: |
+          cd backend-test
+          npm install
+
+      - name: Frontend install & build
+        run: |
+          cd frontend-test
+          npm install
+          npm run build
+
+  # 🚀 CD (only dev & main)
+  docker-build:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build & Push Images
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}/backend:${{ github.ref_name }} ./backend-test
+          docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }} ./frontend-test
+          docker push ghcr.io/${{ github.repository }}/backend:${{ github.ref_name }}
+          docker push ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }}
