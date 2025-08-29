@@ -44,4 +44,4 @@ jobs:
 
           # Frontend image
           docker build -t ghcr.io/${{ github.actor }}/frontend-test:${{ github.ref_name }} ./frontend-test
-          docker push ghcr.io/${{ github.actor }}/frontend-test:${{ github.ref_na
+          docker push ghcr.io/${{ github.actor }}/frontend-test:${{ github.ref_name }}
